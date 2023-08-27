@@ -1,0 +1,133 @@
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Project</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="calculator">
+            <input type="text" id="view" placeholder="0" readonly>
+            <div class="top-btn">
+                <span class="btn-head" onclick="minus()">-/+</span>
+                <span class="btn-head" onclick="percent()">%</span>
+            </div>
+            <div class="bottom-btn">
+                <span onclick="deleteValue()" class="btn-numb backspace">&larr;</span>
+                <span onclick="clearValue()" class="btn-numb clear">C</span>
+                <span onclick="setOperator('+')" class="btn-numb operator">+</span>
+                <span onclick="appendNumber('7')" class="btn-numb">7</span>
+                <span onclick="appendNumber('8')" class="btn-numb">8</span>
+                <span onclick="appendNumber('9')" class="btn-numb">9</span>
+                <span onclick="setOperator('-')" class="btn-numb operator">-</span>
+                <span onclick="appendNumber('4')" class="btn-numb">4</span>
+                <span onclick="appendNumber('5')" class="btn-numb">5</span>
+                <span onclick="appendNumber('6')" class="btn-numb">6</span>
+                <span onclick="setOperator('x')" class="btn-numb operator">×</span>
+                <span onclick="appendNumber('1')" class="btn-numb">1</span>
+                <span onclick="appendNumber('2')" class="btn-numb">2</span>
+                <span onclick="appendNumber('3')" class="btn-numb">3</span>
+                <span onclick="setOperator('÷')" class="btn-numb operator">÷</span>
+                <span onclick="appendNumber('0')" class="btn-numb zero">0</span>
+                <span onclick="appendNumber('.')" class="btn-numb">,</span>
+                <span onclick="signValue()" class="btn-numb sign">=</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const view = document.querySelector('#view');
+
+        let firstNumber = "";
+        let secondNumber = "";
+        let operator = "";
+
+        function appendNumber(value) {
+            if (operator === "") {
+                firstNumber += value;
+                view.value = firstNumber;
+            } else {
+                secondNumber += value;
+                view.value = secondNumber;
+            }
+        }
+
+        function setOperator(op) {
+            operator = op;
+        }
+
+        function signValue() {
+            if (firstNumber) {
+                switch (operator) {
+                    case ('+'):
+                        view.value = parseFloat(firstNumber) + parseFloat(secondNumber);
+                        break;
+                    case ('-'):
+                        view.value = parseFloat(firstNumber) - parseFloat(secondNumber);
+                        break;
+                    case ('x'):
+                        view.value = parseFloat(firstNumber) * parseFloat(secondNumber);
+                        break;
+                    case ('÷'):
+                        view.value = parseFloat(firstNumber) / parseFloat(secondNumber);
+                        break;
+                }
+                firstNumber = view.value;
+                secondNumber = "";
+                operator = "";
+            } else {
+                alert("error")
+                firstNumber = "";
+                secondNumber = "";
+                operator = "";
+                view.value = ""
+            }
+        }
+
+        function deleteValue() {
+            if (operator === "") {
+                firstNumber = firstNumber.toString().slice(0, -1);
+                view.value = firstNumber;
+            } else {
+                secondNumber = secondNumber.toString().slice(0, -1);
+                view.value = secondNumber;
+            }
+        }
+
+        function clearValue() {
+            firstNumber = "";
+            secondNumber = "";
+            operator = "";
+            view.value = "";
+        }
+
+        function minus() {
+            if (firstNumber || secondNumber) {
+                if (operator === "") {
+                    firstNumber = (-parseFloat(firstNumber));
+                    view.value = firstNumber;
+                } else {
+                    secondNumber = (-parseFloat(secondNumber));
+                    view.value = secondNumber;
+                }
+            } else {
+                alert("insert number")
+            }
+        }
+
+        function percent() {
+            if (operator === "") {
+                firstNumber = parseFloat(firstNumber) / 100;
+                view.value = firstNumber;
+            } else {
+                secondNumber = parseFloat(secondNumber) / 100;
+                view.value = secondNumber;
+            }
+        }
+    </script>
+</body>
+
+</html>
